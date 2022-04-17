@@ -27,6 +27,7 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
+	"testing"
 	"time"
 
 	"github.com/docker/go-units"
@@ -5974,4 +5975,19 @@ func (s *testSessionSuite) TestForbidSettingBothTSVariable(c *C) {
 	c.Assert(err.Error(), Equals, "tidb_read_staleness should be clear before setting tidb_snapshot")
 	tk.MustExec("set @@tidb_read_staleness = ''")
 	tk.MustExec("set @@tidb_snapshot = '2007-01-01 15:04:05.999999'")
+}
+func (s *testSessionSuite) TestInsert(c *C) {
+	tk := testkit.NewTestKit(c, s.store)
+	tk.MustExec("use test")
+	tk.MustExec("DROP TABLE IF EXISTS `t_3nyn_c`;")
+	tk.MustExec("CREATE TABLE `t_3nyn_c` (\n  `wkey` int(11) DEFAULT NULL,\n  `pkey` int(11) NOT NULL,\n  `c_kgkc7c` double DEFAULT NULL,\n  `c_6preq` int(11) DEFAULT NULL,\n  `c_dufiib` int(11) DEFAULT NULL,\n  `c_9kited` int(11) DEFAULT NULL,\n  `c_lhficd` text DEFAULT NULL,\n  `c_ks83mc` int(11) DEFAULT NULL,\n  PRIMARY KEY (`pkey`) /*T![clustered_index] CLUSTERED */,\n  UNIQUE KEY `pkey_2` (`pkey`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;")
+	tk.MustExec("INSERT INTO `t_3nyn_c` VALUES (3,6,51.38,84,68,20,'_lfw1',4),(3,7,89.44,8,5,74,'k38i2c',75),(6,11,10.18,76,62,26,'9_ykvc',47),(6,12,NULL,13,52,57,'towgz',17),(6,13,84.72,88,14,34,'xaml4c',97),(8,20,36.22,38,91,90,'u25qs',19),(8,21,20.56,54,25,73,'v_2vw',57),(8,22,98.27,28,4,48,'6fuvkc',54),(8,23,2.23,56,27,25,'x_tr9d',54),(8,24,76.39,96,86,82,'j_buzd',31),(8,25,65.99,46,80,32,'c1vqyd',85),(9,26,55.14,98,67,33,'yfufmc',77),(9,27,18.49,80,33,50,'ewktud',83),(9,28,34.91,50,23,19,NULL,40),(9,29,2.6,93,59,32,'jyytrb',5),(9,30,97.77,59,75,46,'kcx81b',85),(10,31,1.8,48,43,51,'8zywqb',91),(10,32,45.5,76,17,29,'j4ftgd',42),(10,33,50.26,96,35,53,'2g8e3c',97),(10,34,51.82,20,96,70,'lddeob',60),(13,38,36.8,59,27,71,'kchd7b',6),(13,39,50.8,69,98,75,'gj1drc',90),(13,40,19.38,87,31,73,'gka4p',51),(13,41,21.45,96,89,21,'qimjid',32),(13,42,96.1,18,61,97,'suvzk',71),(17,52,84.56,58,2,96,'2_b1j',78);\n")
+	tk.MustExec("DROP TABLE IF EXISTS `t_rtu0od`;")
+	tk.MustExec("CREATE TABLE `t_rtu0od` (\n  `wkey` int(11) DEFAULT NULL,\n  `pkey` int(11) NOT NULL,\n  `c_wvbclc` int(11) DEFAULT NULL,\n  `c_eejioc` int(11) DEFAULT NULL,\n  `c_qnvjud` text DEFAULT NULL,\n  `c_aw4fcc` int(11) DEFAULT NULL,\n  `c_96usr` double DEFAULT NULL,\n  `c_9rybl` double DEFAULT NULL,\n  `c_utisnc` text DEFAULT NULL,\n  PRIMARY KEY (`pkey`) /*T![clustered_index] CLUSTERED */,\n  UNIQUE KEY `pkey_2` (`pkey`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;")
+	tk.MustExec("INSERT INTO `t_rtu0od` VALUES (5,10,95,32,'nrl_kd',50,68.8,15.85,'sooa7b'),(15,44,1,76,'4nj9nb',1,49.83,44.78,'3xdyh'),(15,45,48,63,NULL,78,2147483648.1,68.2,NULL),(15,46,62,35,'wegllb',20,49.38,49.21,'lqokrd'),(15,47,25,75,'6akhxb',60,75.29,NULL,'lhtpod');")
+	tk.MustExec("DROP TABLE IF EXISTS `t_wvccid`;")
+	tk.MustExec("CREATE TABLE `t_wvccid` (\n  `wkey` int(11) DEFAULT NULL,\n  `pkey` int(11) NOT NULL,\n  `c_bracr` double DEFAULT NULL,\n  `c_ttshqd` double DEFAULT NULL,\n  `c_lv_m0` int(11) DEFAULT NULL,\n  PRIMARY KEY (`pkey`) /*T![clustered_index] CLUSTERED */,\n  UNIQUE KEY `pkey_2` (`pkey`),\n  KEY `t_mpgywb` (`wkey`,`pkey`,`c_bracr`,`c_ttshqd`,`c_lv_m0`),\n  UNIQUE KEY `t_r0tn5b` (`pkey`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;")
+	tk.MustExec("INSERT INTO `t_wvccid` VALUES (1,1,8.79,95.77,16),(2,2,21.45,23.81,68),(2,3,60.28,NULL,77),(2,4,82.64,20.62,70),(2,5,69.21,NULL,45),(4,8,28.41,32.74,13),(4,9,94.45,33.18,59),(7,14,5.11,70.37,73),(7,15,4.22,2147483648.1,34),(7,16,NULL,2147483648.1,78),(7,17,26.41,60.29,15),(7,18,38.58,43.39,51),(7,19,26.95,57.6,34),(11,35,15.67,4.81,47),(12,36,82.64,NULL,87),(12,37,40.4,59.71,98),(14,43,NULL,91.4,9),(16,48,42.7,5.51,100),(16,49,NULL,3.31,63),(16,50,68.33,32.57,48),(16,51,51.42,NULL,79),(18,53,89.58,31.56,42),(18,54,37.6,42.2,56),(18,55,NULL,9.99,89),(18,56,82.2,98.98,4),(19,57,43.56,83.59,27),(19,58,92.16,93.28,58),(19,59,43.26,86.47,6),(19,60,60.97,37.12,21),(19,61,7.14,97.37,11),(19,62,83.22,65.89,83);")
+	tk.MustExec("insert into t_3nyn_c values (52, 91, 89.98, 47, 27, 0, '4nj9nb', 91);")
+	tk.MustExec("delete from t_3nyn_c where (t_3nyn_c.wkey % t_3nyn_c.c_9kited) is NULL;")
 }
